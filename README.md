@@ -32,14 +32,14 @@ This application run a spring boot application with prometheus and graphana.
 
 ```sh
    #Java Heap
-   -Xms500m
-   -Xmx500m
-   -XX:+UseContainerSupport
-   -XX:InitiatingHeapOccupancyPercent=70
-   -XX:MaxRAMPercentage=50
-   -XX:MaxGCPauseMillis=200
-   -XX:ParallelGCThreads=5
+   -Xms500m # Initial java heap
+   -Xmx500m # Max java heap
+   -Xss1m # Thread memory allocation
+   -XX:+UseContainerSupport # Enable container suports for jvm <= 8 
+   -XX:InitiatingHeapOccupancyPercent=70 # Alternative for fixed -Xms
+   -XX:MaxRAMPercentage=50 # Alternative for fixed -Xmx
    #Non Heap
+   -Djdk.nio.maxCachedBufferSize=1000000 # Limit buffer cache used into NIO
    -XX:MaxDirectMemorySize=128m
    -XX:CompressedClassSpaceSize=64m
    -XX:MaxMetaspaceSize=128m
@@ -99,7 +99,7 @@ Dashboards:
 
 Goto analytics folder and follow instructions of **Readme.md**.
 
-#### Notes
+### Notes
 
 **GC explained**:
 * https://sematext.com/blog/java-garbage-collection/
@@ -119,4 +119,36 @@ continued free space.
 
 **Improving Performance and Footprint**
 * https://medium.com/@jean_sossmeier/spring-boot-jvm-1eea422be930
+
+**Troubleshooting Problems With Native (Off-Heap) Memory in Java Application**
+https://dzone.com/articles/troubleshooting-problems-with-native-off-heap-memo
+
+
+### Commands
+
+Show jvm params:
+
+```sh
+java -XX:+PrintFlagsFinal -version | grep CodeCacheFlush
+```
+
+**Native memory**:
+
+See RES (Resident Set Size) of process:
+
+```sh
+top
+```
+
+JCMD
+
+```sh
+jcmd <PID> VM.native_memory
+```
+
+
+**Memory Map**
+```sh
+pmap -xx <PID>
+```
 
