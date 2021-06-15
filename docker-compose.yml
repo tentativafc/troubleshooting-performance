@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   mysql:
     image: mysql:8.0.23
     user: "1000:1000"
@@ -12,9 +11,33 @@ services:
     volumes:
       - ./docker-volumes/mysql:/var/lib/mysql
 
+  # app:
+  #   restart: always
+  #   image: tentativafc/troubleshooting-performance:1.0.0-snapshot
+  #   environment:
+  #     - MYSQL_HOST=mysql
+  #     - MYSQL_PORT=3306
+  #     - MYSQL_USER=root
+  #     - MYSQL_PASSWORD=123456
+  #   ports:
+  #     - 8080:8080
+  #     - 1099:1099
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: 1
+  #         memory: 512M
+  #       reservations:
+  #         cpus: 1
+  #         memory: 512M
+  #   depends_on:
+  #     - mysql
+
   app:
     restart: always
-    image: tentativafc/troubleshooting-performance:1.0.0-snapshot
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306

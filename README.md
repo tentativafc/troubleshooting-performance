@@ -35,7 +35,7 @@ This application run a spring boot application with prometheus and graphana.
    -Xms500m # Initial java heap
    -Xmx500m # Max java heap
    -Xss1m # Thread memory allocation
-   -XX:+UseContainerSupport # Enable container suports for jvm <= 8 
+   -XX:+UseContainerSupport # Enable container suports for jvm <= 8
    -XX:InitiatingHeapOccupancyPercent=70 # Alternative for fixed -Xms
    -XX:MaxRAMPercentage=50 # Alternative for fixed -Xmx
    #Non Heap
@@ -99,10 +99,17 @@ Dashboards:
 
 Goto analytics folder and follow instructions of **Readme.md**.
 
+### Tests
+
+Decreasing Tomcat and Hikari thread pool size:
+
+![image](images/threadpool.png)
+
 ### Notes
 
 **GC explained**:
-* https://sematext.com/blog/java-garbage-collection/
+
+- https://sematext.com/blog/java-garbage-collection/
 
 Important:
 Actually, any object larger than 50% of the region size is considered humongous. Those objects are not allocated in the
@@ -111,18 +118,20 @@ pause time of the garbage collector and can increase the risk of triggering the 
 continued free space.
 
 **JMC**
-* https://www.oracle.com/webapps/redirect/signon?nexturl=https://download.oracle.com/otn-pub/java/jmc/7.1.2%2B04/a4634525489241b9a9e1aa73d9e118e6/jmc-7.1.2_linux-x64.tar.gz
+
+- https://www.oracle.com/webapps/redirect/signon?nexturl=https://download.oracle.com/otn-pub/java/jmc/7.1.2%2B04/a4634525489241b9a9e1aa73d9e118e6/jmc-7.1.2_linux-x64.tar.gz
 
 **JVM Footprint**
-* https://stackoverflow.com/questions/53451103/java-using-much-more-memory-than-heap-size-or-size-correctly-docker-memory-limi/53624438#53624438
-* https://www.youtube.com/watch?v=c755fFv1Rnk
+
+- https://stackoverflow.com/questions/53451103/java-using-much-more-memory-than-heap-size-or-size-correctly-docker-memory-limi/53624438#53624438
+- https://www.youtube.com/watch?v=c755fFv1Rnk
 
 **Improving Performance and Footprint**
-* https://medium.com/@jean_sossmeier/spring-boot-jvm-1eea422be930
+
+- https://medium.com/@jean_sossmeier/spring-boot-jvm-1eea422be930
 
 **Troubleshooting Problems With Native (Off-Heap) Memory in Java Application**
 https://dzone.com/articles/troubleshooting-problems-with-native-off-heap-memo
-
 
 ### Commands
 
@@ -146,9 +155,8 @@ JCMD
 jcmd <PID> VM.native_memory
 ```
 
-
 **Memory Map**
+
 ```sh
 pmap -xx <PID>
 ```
-
